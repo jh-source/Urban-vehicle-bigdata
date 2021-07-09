@@ -17,6 +17,8 @@
   首先需要配置好虚拟机、电脑上的hosts文件和程序中的ip地址，基础部分的使用可以参考老师提供的材料
 
   加分项依次需要运行example下的KafkaFilter类和toTrace类、recordAnalyseSystemSparkCode下的TopN类。
+  
+  注：该项目使用GPL协议
 
 # 1、系统架构
 
