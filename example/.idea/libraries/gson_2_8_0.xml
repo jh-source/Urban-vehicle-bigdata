@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="gson-2.8.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/gson-2.8.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jedis-2.9.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
