@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="text/html;charset=UTF-8"/>
+    <title th:text="${title}"></title>
+<!--    <div th:replace="fragments/header :: css"></div>-->
+    <script type="application/javascript"
+            src="http://mapopen.bj.bcebos.com/github/BMapGLLib/TrackAnimation/src/TrackAnimation.min.js"></script>
+    <script type="application/javascript"
+            src="http://api.map.baidu.com/api?type=webgl&amp;v=1.0&amp;ak=NIS00KITWukRx8izM2vo2ol6Xs6EZla0"></script>
+</head>
+<body>
+<!--<div th:replace="fragments/header :: header"></div>-->
+<div id="allmap"></div>
+<script>
+    // GL版命名空间为BMapGL
+    // 按住鼠标右键，修改倾斜角和角度
+    var bmap = new BMapGL.Map("allmap");    // 创建Map实例
+    var initLng = 108.924257;
+    var initLat = 34.235873;
+    bmap.centerAndZoom(new BMapGL.Point(initLng, initLat), 13);  // 初始化地图,设置中心点坐标和地图级别
+    bmap.enableScrollWheelZoom(true);     // 开启鼠标滚轮缩放
+    // var path = [{
+    //     'lng': 116.297611,
+    //     'lat': 40.047363
+    // }];
+    var point = [];
+    // for (var i = 0; i 	&lt; path.length; i++) {
+    //     point.push(new BMapGL.Point(path[i].lng, path[i].lat));
+    // }
+</script>
+<script th:each="record:${recordList}" th:inline="javascript">
+    var nowLng = /*[[${record.getLongitude()}]]*/initLng;
+    var nowLat = /*[[${record.getLatitude()}]]*/initLat;
+    point.push(new BMapGL.Point(nowLng, nowLat));
+</script>
+<script>
+    var pl = new BMapGL.Polyline(point);
+    setTimeout('start()', 3000);
+
+    function start() {
+        trackAni = new BMapGLLib.TrackAnimation(bmap, pl, {
+            overallView: true,
+            tilt: 30,
+            duration: 20000,
+            delay: 300
+        });
+        trackAni.start();
+    }
+</script>
+<!--<div th:replace="fragments/header :: js"></div>-->
+</body>
+</html>

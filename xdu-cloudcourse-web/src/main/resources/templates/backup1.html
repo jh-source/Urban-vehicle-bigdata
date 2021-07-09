@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="text/html;charset=UTF-8"/>
+    <title th:text="${title}"></title>
+    <div th:replace="fragments/header :: css"></div>
+    <link rel="stylesheet" th:href="@{http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css}" />
+    <style>
+        #mapHolder {
+            flex: 1;
+        }
+        .map-controlls {
+            height: 120px;
+            background: #222;
+        }
+        .BMap_Marker > div > img {
+            width: 25px;
+            height: 25px;
+        }
+        .BMap_bubble_content > img {
+            padding: 10px;
+            height: 200px;
+            width: 200px;
+        }
+    </style>
+
+
+    <script src="http://api.map.baidu.com/api?v=2.0&amp;ak=XwDtvv0cOUSfzNI5q68emSsFGM252czT"></script>
+
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="fragments/sider :: sider"></div>
+        <main class="col-sm-9 ml-sm-auto col-md-10 pt-3" role="main">
+            <h1 th:text="${title}"></h1>
+            <div>
+                <form class="form-inline mt-2 mt-md-0 mb-md-2" th:action="@{/track}" method="post">
+                    <input class="form-control mr-sm-2" name="eid" placeholder="EID" th:value="${eid}" />
+                    &nbsp;and&nbsp;&nbsp;
+                    <input class="form-control mr-sm-2" name="stime" placeholder="STime" th:value="${stime}" />
+                    &nbsp;and&nbsp;&nbsp;
+                    <input class="form-control mr-sm-2" name="etime" placeholder="ETime" th:value="${etime}" />
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">查询</button>
+                </form>
+            </div>
+            <div>
+                <div style="width:1080px;height:540px;" id="mapHolder"></div>
+                <style type="text/css">
+                    #mapHolder {
+                        width: 75vw;
+                        height: 70vh;
+                        overflow: hidden;
+                        margin:0;
+                        font-family:"微软雅黑";
+                        left: 0px;
+                        top: 0px;
+                    }
+                </style>
+
+                <script th:inline="javascript">
+                    /*<![CDATA[*/
+
+                    // 百度地图API功能
+                    var map = new BMap.Map("mapHolder");
+                    map.centerAndZoom(new BMap.Point(120.692, 30.801), 11);
+                    map.enableScrollWheelZoom(true);
+                    var i;
+                    var p=new Array();
+                    //var json=[{longitude:"116.301934",latitude:"39.977552"},{longitude:"116.301934",latitude:"39.919141"},{longitude:"116.365942",latitude:"39.996165"},{longitude:"116.408757",latitude:"39.995704"}]
+
+                    var json=[[${tracklist}]];
+                    //var result = '${tracklist}';
+                    //var json = JSON.parse(result);
+
+                    //alert(json.length);
+                    //alert(json[0].longitude);
+                    for(i=0;i<json.length;i++){
+                        p[i]=new BMap.Point(json[i].longitude,json[i].latitude);
+                        console.log(p[i]);
+                        var marker = new BMap.Marker(p[i]);
+                        map.addOverlay(marker);
+                    }
+                    for(var c=0;c<json.length;c++){
+                        //将途经点按顺序添加到地图上
+                        var label = new BMap.Label(c+1,{offset:new BMap.Size(20,-10)});
+                        marker.setLabel(label);
+
+                    }
+                    /* var group = Math.floor( json.length /11 ) ;
+                     //alert(group);
+                     var mode = json.length %11 ;
+                     //alert(mode);
+                     var driving = new BMap.DrivingRoute( map, {onSearchComplete: function(results){
+                             if (driving.getStatus() == BMAP_STATUS_SUCCESS){
+                                 var plan = driving.getResults().getPlan(0);
+                                 var  num = plan.getNumRoutes();
+                                 //alert("plan.num ："+num);
+                                 for(var j =0;j<num ;j++){
+                                     var pts= plan.getRoute(j).getPath();    //通过驾车实例，获得一系列点的数组
+                                     var polyline = new BMap.Polyline(pts);
+                                     map.addOverlay(polyline);
+                                 }
+                             }
+                         }});
+                     for(var i =0;i<group;i++){
+                         var waypoints = p.slice(i*11+1,(i+1)*11);
+                         //注意这里的终点如果是11的倍数的时候，数组可是取不到最后一位的，所以要注意终点-1
+                         driving.search(p[i*11], p[(i+1)*11-1],{waypoints:waypoints});//waypoints表示途经点
+                     }
+                     if( mode != 0){
+                         var waypoints = p.slice(group*11,json.length-1);//多出的一段单独进行search
+                         driving.search(p[group*11],p[json.length-1],{waypoints:waypoints});
+                     }*/
+
+                    /*]]>*/
+                </script>
+            </div>
+        </main>
+        <img style="display:none;" id="tecIcon" th:src="@{assets/images/tec.png}" alt="机具"/>
+    </div>
+</div>
+
+<div th:replace="fragments/header :: js"></div>
+
+
+</body>
+</html>

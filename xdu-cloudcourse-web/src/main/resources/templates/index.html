@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="text/html;charset=UTF-8"/>
+    <title th:text="${title}"></title>
+    <div th:replace="fragments/header :: css"></div>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="fragments/sider :: sider"></div>
+        <main class="col-sm-9 ml-sm-auto col-md-10 pt-3" role="main">
+            <h1>团队介绍</h1>
+            <p><strong>·这里是第15组的展示页面</strong></p>
+            <p><strong>这是我们的队徽</strong></p>
+            <img src = "https://www.hualigs.cn/image/60c77dd9863cd.jpg"></img>
+            <p>我们完成了<strong>基础功能和所有组件的加分项</strong></p>
+
+        </main>
+    </div>
+</div>
+
+<div th:replace="fragments/header :: js"></div>
+</body>
+</html>

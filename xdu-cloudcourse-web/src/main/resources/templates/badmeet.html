@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="text/html;charset=UTF-8"/>
+    <title th:text="${title}"></title>
+    <div th:replace="fragments/header :: css"></div>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="fragments/sider :: sider"></div>
+        <main class="col-sm-9 ml-sm-auto col-md-10 pt-3" role="main">
+            <h1 th:text="${title}"></h1>
+            <div>
+                <form class="form-inline mt-2 mt-md-0 mb-md-2" th:action="@{/meet}" method="post">
+                    <input class="form-control mr-sm-2" name="eid" placeholder="EID" th:value="${condition.getEid()}" />
+                    &nbsp;
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">查询</button>
+                </form>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>EID</th>
+                        <th>MeetEID</th>
+                        <th>MeetTimes</th>
+                    </tr>
+                    </thead>
+                    <!--<tbody>
+                    <tr th:each="record : ${carMeetsList}">
+                        <td></td>
+                        <td th:text="${record.getEid()}"></td>
+                        <td th:text="${record.getMeetEid()}"></td>
+                        <td th:text="${record.getMeetCount()}"></td>
+                    </tr>
+                    </tbody>-->
+                    <!--<tbody>
+                        <tr th:each="meet: ${carMeetsList}">
+                            <td></td>
+                            <%
+                                String str = meet.getEid();
+                                String[] eidstr = str.split("##");
+                                String eID = eidstr[1];
+                                String Meetid = eidstr[0];
+                            %>
+                            <td th:text="eID"></td>
+                            <td th:text="Meetid"></td>
+                            <td th:text=" ${meet.getMeets()}"></td>
+                        </tr>-->
+                        <tr th:each="meet: ${carMeetsList.getMeets()}">
+                            <td></td>
+                            <td th:text="${carMeetsList.getEid()}"></td>
+                            <td th:text="${meet.getKey()}"></td>
+                            <td th:text="${meet.getValue()}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+
+<div th:replace="fragments/header :: js"></div>
+</body>
+</html>
